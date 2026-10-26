@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F9F6F0;
+    color: #231F1D;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom Archival Library Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1ECE1;
+  border-left: 1px solid #DCD4C6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B58938;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9E742B;
+}
+
+/* Wooden Bookshelf Shelf Line */
+.wooden-shelf {
+  background: linear-gradient(180deg, #3A2B23 0%, #251B16 60%, #150F0D 100%);
+  border-top: 3px solid #574236;
+  border-bottom: 2px solid #0D0A09;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.08);
+}
+
+/* Library Index Card Border & Grid Effect */
+.index-card {
+  background-color: #F1ECE1;
+  border: 1px solid #DCD4C6;
+  box-shadow: 0 1px 3px rgba(35, 31, 29, 0.06);
+  position: relative;
+}
+
+.index-card-red-rule {
+  border-top: 2px solid rgba(114, 38, 32, 0.7);
+}
+
+/* Stamped Ledger Border */
+.ledger-stamp {
+  border: 1.5px dashed #B58938;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Author Verified Stamp */
+.author-stamp {
+  background-color: #722620;
+  color: #F5EFE6;
+  border: 1px solid #5A1E19;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
