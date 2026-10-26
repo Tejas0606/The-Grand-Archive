@@ -13,9 +13,11 @@ const Notification = require('./models/Notification');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/grand_archive';
 
-const seedDatabase = async () => {
+const seedDatabase = async (standalone = (require.main === module)) => {
   try {
-    await mongoose.connect(MONGO_URI);
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(MONGO_URI);
+    }
     console.log('[The Grand Archive Seed] Connected to database.');
 
     // Clear existing collections
@@ -527,12 +529,22 @@ const seedDatabase = async () => {
     console.log('Demo Author:  email: frank@grandarchive.org  | password: library123');
     console.log('----------------------------');
 
-    await mongoose.connection.close();
-    process.exit(0);
+    if (standalone) {
+      await mongoose.connection.close();
+      process.exit(0);
+    }
+    return true;
   } catch (err) {
     console.error('[The Grand Archive Seed Failed]:', err);
-    process.exit(1);
+    if (standalone) {
+      process.exit(1);
+    }
+    throw err;
   }
 };
 
-seedDatabase();
+if (require.main === module) {
+  seedDatabase(true);
+}
+
+module.exports = { seedDatabase };

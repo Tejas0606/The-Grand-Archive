@@ -19,8 +19,22 @@ const postRoutes = require('./routes/postRoutes');
 const clubRoutes = require('./routes/clubRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 
-// Initialize MongoDB
-connectDB();
+const Book = require('./models/Book');
+const { seedDatabase } = require('./seed');
+
+// Initialize MongoDB and auto-seed if catalog is empty
+connectDB().then(async () => {
+  try {
+    const count = await Book.countDocuments();
+    if (count === 0) {
+      console.log('[The Grand Archive] Catalog is empty. Auto-seeding initial books and authors...');
+      await seedDatabase(false);
+      console.log('[The Grand Archive] Auto-seed complete!');
+    }
+  } catch (err) {
+    console.warn('[The Grand Archive] Auto-seed notice:', err.message);
+  }
+});
 
 const app = express();
 const server = http.createServer(app);
@@ -66,6 +80,19 @@ app.get('/api/health', (req, res) => {
     archive: 'The Grand Archive API',
     timestamp: new Date().toISOString()
   });
+});
+
+// One-click Seed Endpoint
+app.get('/api/seed', async (req, res) => {
+  try {
+    await seedDatabase(false);
+    res.json({
+      success: true,
+      message: 'The Grand Archive database successfully inscribed with books, authors, and salons.'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // API Routes
